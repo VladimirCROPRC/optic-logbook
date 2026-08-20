@@ -233,15 +233,13 @@ function ClosureCard({
               />
             </Field>
           </div>
-          <div className="grid grid-cols-2 gap-3">
-            <Field label="Type">
-              <Input
-                value={form.closure_type}
-                onChange={(e) => setForm({ ...form, closure_type: e.target.value })}
-                placeholder="Dome / inline 24F"
-              />
-            </Field>
-          </div>
+          <Field label="Type">
+            <Input
+              value={form.closure_type}
+              onChange={(e) => setForm({ ...form, closure_type: e.target.value })}
+              placeholder="Dome / inline 24F"
+            />
+          </Field>
           <Field label="Location note">
             <Input
               value={form.location_note}
