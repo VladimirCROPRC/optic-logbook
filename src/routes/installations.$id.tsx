@@ -11,6 +11,7 @@ import { SpeedTestTab } from "@/components/installation/SpeedTestTab";
 import { RouteTab } from "@/components/installation/RouteTab";
 import { SplicingTab } from "@/components/installation/SplicingTab";
 import { SiteTab } from "@/components/installation/SiteTab";
+import { DocumentsTab } from "@/components/installation/DocumentsTab";
 import type { Installation } from "@/components/installation/types";
 import { STATUS_LABEL, type InstallStatus } from "@/lib/fiber";
 
@@ -88,12 +89,13 @@ function InstallationDetail() {
       showBack
     >
       <Tabs defaultValue="client" className="w-full">
-        <TabsList className="mb-4 grid w-full grid-cols-5">
+        <TabsList className="mb-4 grid w-full grid-cols-6">
           <TabsTrigger value="client">Client</TabsTrigger>
           <TabsTrigger value="speed">Speed</TabsTrigger>
           <TabsTrigger value="route">Route</TabsTrigger>
           <TabsTrigger value="splice">Splices</TabsTrigger>
           <TabsTrigger value="site">Site</TabsTrigger>
+          <TabsTrigger value="docs">Docs</TabsTrigger>
         </TabsList>
 
         <TabsContent value="client">
@@ -110,6 +112,9 @@ function InstallationDetail() {
         </TabsContent>
         <TabsContent value="site">
           <SiteTab key={data.updated_at} installation={data} />
+        </TabsContent>
+        <TabsContent value="docs">
+          <DocumentsTab key={data.updated_at} installation={data} />
         </TabsContent>
       </Tabs>
     </AppShell>
