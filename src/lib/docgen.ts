@@ -270,6 +270,7 @@ export async function buildDevizXlsx(job: JobBundle, lines: DevizExportLine[]): 
 
     sectionHeader(category === "manopera" ? "Denumire Lucrare (RO)" : "Materiale");
     const first = ws.rowCount + 1;
+    let sectionTotal = 0;
     for (const l of group) {
       const total = money(Number(l.item.unit_price_eur) * l.quantity);
       const row = ws.addRow([
@@ -285,8 +286,9 @@ export async function buildDevizXlsx(job: JobBundle, lines: DevizExportLine[]): 
       row.getCell(4).numFmt = "#,##0.0000";
       row.getCell(6).numFmt = "#,##0.00";
       row.eachCell((c) => (c.border = borders));
-      grand += total;
+      sectionTotal += total;
     }
+    grand += sectionTotal;
     const last = ws.rowCount;
     const totalRow = ws.addRow([
       null,
@@ -296,7 +298,7 @@ export async function buildDevizXlsx(job: JobBundle, lines: DevizExportLine[]): 
       null,
       null,
     ]);
-    totalRow.getCell(6).value = { formula: `SUM(F${first}:F${last})`, result: money(grand) };
+    totalRow.getCell(6).value = { formula: `SUM(F${first}:F${last})`, result: money(sectionTotal) };
     totalRow.getCell(6).numFmt = "#,##0.00";
     totalRow.font = { name: "Arial", bold: true };
     totalRow.eachCell((c) => (c.border = borders));
