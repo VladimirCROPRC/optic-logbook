@@ -7,7 +7,21 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { MapCanvas, type MapMarker } from "@/components/map/MapCanvas";
-import { isLatLngArray, pathLength, type LatLng } from "@/lib/fiber";
+import {
+  SEGMENT_METHODS,
+  isLatLngArray,
+  parseSegments,
+  pathLength,
+  type LatLng,
+  type RouteSegment,
+} from "@/lib/fiber";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Field, SectionCard } from "./Field";
 import type { FiberRoute, Installation, SpliceClosure } from "./types";
 
@@ -290,12 +304,33 @@ function RouteDetails({
   const [fiberCount, setFiberCount] = useState(route.fiber_count?.toString() ?? "");
   const [method, setMethod] = useState(route.installation_method ?? "");
   const [notes, setNotes] = useState(route.notes ?? "");
+  const [fromPoint, setFromPoint] = useState(route.from_point ?? "");
+  const [toPoint, setToPoint] = useState(route.to_point ?? "");
+  const [segments, setSegments] = useState<RouteSegment[]>(parseSegments(route.segments));
+
+  const segmentTotal = segments.reduce((s, x) => s + (Number(x.length_m) || 0), 0);
 
   return (
     <div className="space-y-3">
       <Field label="Label">
         <Input value={label} onChange={(e) => setLabel(e.target.value)} />
       </Field>
+      <div className="grid grid-cols-2 gap-3">
+        <Field label="From" hint="Closure code / ODF">
+          <Input
+            value={fromPoint}
+            onChange={(e) => setFromPoint(e.target.value)}
+            placeholder="JU29738"
+          />
+        </Field>
+        <Field label="To">
+          <Input
+            value={toPoint}
+            onChange={(e) => setToPoint(e.target.value)}
+            placeholder="locatia clientului"
+          />
+        </Field>
+      </div>
       <div className="grid grid-cols-2 gap-3">
         <Field label="Cable type">
           <Input
@@ -320,6 +355,67 @@ function RouteDetails({
           placeholder="Aerial / duct / facade / trench"
         />
       </Field>
+
+      <Field
+        label="Length breakdown"
+        hint={`Used in the report and the deviz · ${Math.round(segmentTotal)} m across ${segments.length} segment${segments.length === 1 ? "" : "s"}`}
+      >
+        <div className="space-y-2">
+          {segments.map((seg, idx) => (
+            <div key={idx} className="flex gap-2">
+              <Select
+                value={String(seg.method)}
+                onValueChange={(v) =>
+                  setSegments((s) => s.map((x, i) => (i === idx ? { ...x, method: v } : x)))
+                }
+              >
+                <SelectTrigger className="flex-1">
+                  <SelectValue placeholder="Method" />
+                </SelectTrigger>
+                <SelectContent>
+                  {SEGMENT_METHODS.map((m) => (
+                    <SelectItem key={m.value} value={m.value}>
+                      {m.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <Input
+                type="number"
+                inputMode="numeric"
+                className="w-24"
+                value={seg.length_m || ""}
+                onChange={(e) =>
+                  setSegments((s) =>
+                    s.map((x, i) => (i === idx ? { ...x, length_m: Number(e.target.value) || 0 } : x)),
+                  )
+                }
+                placeholder="m"
+                aria-label="Segment length in meters"
+              />
+              <Button
+                size="icon"
+                variant="ghost"
+                aria-label="Remove segment"
+                onClick={() => setSegments((s) => s.filter((_, i) => i !== idx))}
+              >
+                <Trash2 className="size-4 text-destructive" />
+              </Button>
+            </div>
+          ))}
+          <Button
+            size="sm"
+            variant="outline"
+            className="w-full"
+            onClick={() =>
+              setSegments((s) => [...s, { method: SEGMENT_METHODS[0]!.value, length_m: 0 }])
+            }
+          >
+            <Plus className="size-4" /> Add segment
+          </Button>
+        </div>
+      </Field>
+
       <Field label="Notes">
         <Input value={notes} onChange={(e) => setNotes(e.target.value)} />
       </Field>
@@ -333,6 +429,9 @@ function RouteDetails({
             fiber_count: fiberCount === "" ? null : Number(fiberCount),
             installation_method: method,
             notes,
+            from_point: fromPoint,
+            to_point: toPoint,
+            segments: segments.filter((s) => s.length_m > 0),
           })
         }
       >

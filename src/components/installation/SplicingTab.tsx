@@ -98,6 +98,7 @@ function ClosureCard({
   const qc = useQueryClient();
   const [form, setForm] = useState({
     name: closure.name,
+    code: closure.code ?? "",
     closure_type: closure.closure_type ?? "",
     location_note: closure.location_note ?? "",
     latitude: closure.latitude?.toString() ?? "",
@@ -129,6 +130,7 @@ function ClosureCard({
         .from("splice_closures")
         .update({
           name: form.name,
+          code: form.code,
           closure_type: form.closure_type,
           location_note: form.location_note,
           latitude: form.latitude === "" ? null : Number(form.latitude),
@@ -210,7 +212,7 @@ function ClosureCard({
         <div>
           <p className="font-semibold">{closure.name}</p>
           <p className="text-xs text-muted-foreground">
-            {closure.closure_type || "No type set"}
+            {closure.code || closure.closure_type || "No code set"}
             {closure.latitude != null ? " · located" : " · no GPS"}
           </p>
         </div>
@@ -223,14 +225,21 @@ function ClosureCard({
             <Field label="Name">
               <Input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
             </Field>
-            <Field label="Type">
+            <Field label="Closure code" hint="Used in the report">
               <Input
-                value={form.closure_type}
-                onChange={(e) => setForm({ ...form, closure_type: e.target.value })}
-                placeholder="Dome / inline 24F"
+                value={form.code}
+                onChange={(e) => setForm({ ...form, code: e.target.value })}
+                placeholder="JU29738"
               />
             </Field>
           </div>
+          <Field label="Type">
+            <Input
+              value={form.closure_type}
+              onChange={(e) => setForm({ ...form, closure_type: e.target.value })}
+              placeholder="Dome / inline 24F"
+            />
+          </Field>
           <Field label="Location note">
             <Input
               value={form.location_note}

@@ -14,11 +14,96 @@ export type Database = {
   }
   public: {
     Tables: {
+      deviz_items: {
+        Row: {
+          active: boolean
+          category: string
+          created_at: string
+          id: string
+          item_no: number
+          name_ro: string
+          sort_order: number
+          um: string | null
+          unit_price_eur: number
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          category: string
+          created_at?: string
+          id?: string
+          item_no: number
+          name_ro: string
+          sort_order?: number
+          um?: string | null
+          unit_price_eur?: number
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          category?: string
+          created_at?: string
+          id?: string
+          item_no?: number
+          name_ro?: string
+          sort_order?: number
+          um?: string | null
+          unit_price_eur?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      deviz_lines: {
+        Row: {
+          auto_suggested: boolean
+          created_at: string
+          id: string
+          installation_id: string
+          item_id: string
+          quantity: number
+          updated_at: string
+        }
+        Insert: {
+          auto_suggested?: boolean
+          created_at?: string
+          id?: string
+          installation_id: string
+          item_id: string
+          quantity?: number
+          updated_at?: string
+        }
+        Update: {
+          auto_suggested?: boolean
+          created_at?: string
+          id?: string
+          installation_id?: string
+          item_id?: string
+          quantity?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "deviz_lines_installation_id_fkey"
+            columns: ["installation_id"]
+            isOneToOne: false
+            referencedRelation: "installations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "deviz_lines_item_id_fkey"
+            columns: ["item_id"]
+            isOneToOne: false
+            referencedRelation: "deviz_items"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       fiber_routes: {
         Row: {
           cable_type: string | null
           created_at: string
           fiber_count: number | null
+          from_point: string | null
           id: string
           installation_id: string
           installation_method: string | null
@@ -26,12 +111,15 @@ export type Database = {
           length_m: number | null
           notes: string | null
           path: Json
+          segments: Json
+          to_point: string | null
           updated_at: string
         }
         Insert: {
           cable_type?: string | null
           created_at?: string
           fiber_count?: number | null
+          from_point?: string | null
           id?: string
           installation_id: string
           installation_method?: string | null
@@ -39,12 +127,15 @@ export type Database = {
           length_m?: number | null
           notes?: string | null
           path?: Json
+          segments?: Json
+          to_point?: string | null
           updated_at?: string
         }
         Update: {
           cable_type?: string | null
           created_at?: string
           fiber_count?: number | null
+          from_point?: string | null
           id?: string
           installation_id?: string
           installation_method?: string | null
@@ -52,6 +143,8 @@ export type Database = {
           length_m?: number | null
           notes?: string | null
           path?: Json
+          segments?: Json
+          to_point?: string | null
           updated_at?: string
         }
         Relationships: [
@@ -258,6 +351,7 @@ export type Database = {
       splice_closures: {
         Row: {
           closure_type: string | null
+          code: string | null
           created_at: string
           id: string
           installation_id: string
@@ -269,6 +363,7 @@ export type Database = {
         }
         Insert: {
           closure_type?: string | null
+          code?: string | null
           created_at?: string
           id?: string
           installation_id: string
@@ -280,6 +375,7 @@ export type Database = {
         }
         Update: {
           closure_type?: string | null
+          code?: string | null
           created_at?: string
           id?: string
           installation_id?: string

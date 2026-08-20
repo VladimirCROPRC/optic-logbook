@@ -37,6 +37,42 @@ export const FIBER_COLORS = [
 
 export type LatLng = { lat: number; lng: number };
 
+/** Installation methods for a route segment, with the Romanian wording used in the report. */
+export const SEGMENT_METHODS = [
+  { value: "aerian", label: "Aerial (poles)", ro: "aerian" },
+  { value: "fatada", label: "Facade", ro: "pe fatada cladirii" },
+  { value: "canalizatie", label: "Duct (operator)", ro: "in canalizatie" },
+  { value: "canalizatie_client", label: "Duct (client)", ro: "in canalizatia clientului" },
+  { value: "subteran", label: "Underground / trench", ro: "subteran" },
+  { value: "pat_cablu", label: "Indoor cable tray", ro: "in interior in pat de cablu" },
+  { value: "interior_tub", label: "Indoor in tube", ro: "in interior in tub de protectie" },
+] as const;
+
+export type SegmentMethod = (typeof SEGMENT_METHODS)[number]["value"];
+
+export type RouteSegment = { method: SegmentMethod | string; length_m: number };
+
+export function segmentRo(method: string): string {
+  return SEGMENT_METHODS.find((m) => m.value === method)?.ro ?? method;
+}
+
+export function isSegmentArray(value: unknown): value is RouteSegment[] {
+  return (
+    Array.isArray(value) &&
+    value.every(
+      (s) =>
+        typeof s === "object" &&
+        s !== null &&
+        typeof (s as RouteSegment).method === "string" &&
+        typeof (s as RouteSegment).length_m === "number",
+    )
+  );
+}
+
+export function parseSegments(value: unknown): RouteSegment[] {
+  return isSegmentArray(value) ? value : [];
+}
+
 export function isLatLngArray(value: unknown): value is LatLng[] {
   return (
     Array.isArray(value) &&
