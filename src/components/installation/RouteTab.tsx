@@ -151,7 +151,10 @@ export function RouteTab({ installation }: { installation: Installation }) {
   });
 
   function useMyLocation() {
-    if (!navigator.geolocation) return toast.error("Geolocation unavailable");
+    if (!navigator.geolocation) {
+      toast.error("Geolocation unavailable");
+      return;
+    }
     navigator.geolocation.getCurrentPosition(
       (pos) =>
         setSiteLocation.mutate({ lat: pos.coords.latitude, lng: pos.coords.longitude }),
