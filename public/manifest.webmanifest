@@ -1,0 +1,14 @@
+{
+  "name": "FiberDoc — B2B Fiber Installations",
+  "short_name": "FiberDoc",
+  "description": "Document B2B fiber optic installations in the field.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f2f5f7",
+  "theme_color": "#1b2b3d",
+  "orientation": "portrait",
+  "icons": [
+    { "src": "/app-icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/app-icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+  ]
+}
