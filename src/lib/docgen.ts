@@ -7,6 +7,11 @@ function ro(n: number, one: string, many: string) {
   return n === 1 ? `o ${one}` : `${n} ${many}`;
 }
 
+/** "S-a" for singular, "S-au" for plural, per Romanian agreement rules. */
+function sA(n: number) {
+  return n === 1 ? "S-a" : "S-au";
+}
+
 function fmtM(m: number) {
   return `${Math.round(m)}m`;
 }
