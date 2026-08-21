@@ -35,8 +35,8 @@ export function buildReportSections(job: JobBundle) {
   if (i.odf_name) {
     site.push(
       i.odf_port
-        ? `S-a terminat fibra in ODF ${i.odf_name}, portul ${i.odf_port}`
-        : `S-a terminat fibra in ODF ${i.odf_name}`,
+        ? `S-a cablat fibra in ODF ${i.odf_name}, portul ${i.odf_port}`
+        : `S-a cablat fibra in ODF ${i.odf_name}`,
     );
   }
   if (i.vlan) site.push(`S-a configurat VLAN ${i.vlan}`);
