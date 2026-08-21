@@ -61,7 +61,7 @@ export function buildReportSections(job: JobBundle) {
   for (const c of closures) {
     const n = splices.filter((s) => s.closure_id === c.id).length;
     if (!n) continue;
-    traseu.push(`S-a executat ${ro(n, "sudura FO", "suduri FO")} in ${c.code || c.name}`);
+    traseu.push(`${sA(n)} executat ${ro(n, "sudura FO", "suduri FO")} in ${c.code || c.name}`);
   }
   if (!routes.length && !closures.length) traseu.push("Nu au fost documentate trasee de cablu.");
 
