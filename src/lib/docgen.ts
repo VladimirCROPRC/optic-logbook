@@ -48,7 +48,11 @@ export function buildReportSections(job: JobBundle) {
     const from = r.from_point?.trim() || closures[0]?.code || closures[0]?.name || "punctul de racord";
     const to = r.to_point?.trim() || "locatia clientului";
     const cable = r.cable_type?.trim() ? `FO ${r.cable_type.trim()}` : "FO";
-    const fibers = r.fiber_count ? ` cu ${r.fiber_count} fire` : "";
+    const fibers = r.fiber_count
+      ? Number(r.fiber_count) === 1
+        ? " cu un fir"
+        : ` cu ${r.fiber_count} fire`
+      : "";
     const breakdown = segments.length
       ? `, din care ${joinRo(segments.map((s) => `${fmtM(s.length_m)} ${segmentRo(s.method)}`))}`
       : r.installation_method?.trim()
