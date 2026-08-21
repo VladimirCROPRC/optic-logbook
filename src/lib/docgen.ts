@@ -7,6 +7,11 @@ function ro(n: number, one: string, many: string) {
   return n === 1 ? `o ${one}` : `${n} ${many}`;
 }
 
+/** "S-a" for singular, "S-au" for plural, per Romanian agreement rules. */
+function sA(n: number) {
+  return n === 1 ? "S-a" : "S-au";
+}
+
 function fmtM(m: number) {
   return `${Math.round(m)}m`;
 }
@@ -30,8 +35,8 @@ export function buildReportSections(job: JobBundle) {
   if (i.odf_name) {
     site.push(
       i.odf_port
-        ? `S-a terminat fibra in ODF ${i.odf_name}, portul ${i.odf_port}`
-        : `S-a terminat fibra in ODF ${i.odf_name}`,
+        ? `S-a cablat fibra in ODF ${i.odf_name}, portul ${i.odf_port}`
+        : `S-a cablat fibra in ODF ${i.odf_name}`,
     );
   }
   if (i.vlan) site.push(`S-a configurat VLAN ${i.vlan}`);
@@ -43,7 +48,11 @@ export function buildReportSections(job: JobBundle) {
     const from = r.from_point?.trim() || closures[0]?.code || closures[0]?.name || "punctul de racord";
     const to = r.to_point?.trim() || "locatia clientului";
     const cable = r.cable_type?.trim() ? `FO ${r.cable_type.trim()}` : "FO";
-    const fibers = r.fiber_count ? ` cu ${r.fiber_count} fire` : "";
+    const fibers = r.fiber_count
+      ? Number(r.fiber_count) === 1
+        ? " cu un fir"
+        : ` cu ${r.fiber_count} fire`
+      : "";
     const breakdown = segments.length
       ? `, din care ${joinRo(segments.map((s) => `${fmtM(s.length_m)} ${segmentRo(s.method)}`))}`
       : r.installation_method?.trim()
@@ -56,7 +65,7 @@ export function buildReportSections(job: JobBundle) {
   for (const c of closures) {
     const n = splices.filter((s) => s.closure_id === c.id).length;
     if (!n) continue;
-    traseu.push(`S-a executat ${ro(n, "sudura FO", "suduri FO")} in ${c.code || c.name}`);
+    traseu.push(`${sA(n)} executat ${ro(n, "sudura FO", "suduri FO")} in ${c.code || c.name}`);
   }
   if (!routes.length && !closures.length) traseu.push("Nu au fost documentate trasee de cablu.");
 
