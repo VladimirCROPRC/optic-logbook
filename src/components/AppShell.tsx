@@ -4,6 +4,7 @@ import { ChevronLeft, LogOut } from "lucide-react";
 
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
+import logoAsset from "@/assets/proconect-logo.png.asset.json";
 
 export function AppShell({
   title,
@@ -31,11 +32,16 @@ export function AppShell({
               type="button"
               onClick={() => router.history.back()}
               className="-ml-2 rounded-full p-2 text-surface-deep-foreground/80 transition-colors hover:bg-surface-deep-foreground/10"
-              aria-label="Back"
+              aria-label="Înapoi"
             >
               <ChevronLeft className="size-5" />
             </button>
           ) : null}
+          <img
+            src={logoAsset.url}
+            alt="Proconect"
+            className="h-7 w-auto shrink-0 rounded bg-white/90 p-0.5"
+          />
           <div className="min-w-0 flex-1">
             <h1 className="truncate text-lg font-semibold text-surface-deep-foreground">
               {title}
@@ -48,7 +54,7 @@ export function AppShell({
           <Button
             variant="ghost"
             size="icon"
-            aria-label="Sign out"
+            aria-label="Deconectare"
             className="text-surface-deep-foreground/80 hover:bg-surface-deep-foreground/10 hover:text-surface-deep-foreground"
             onClick={async () => {
               await signOut();

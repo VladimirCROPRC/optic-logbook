@@ -23,7 +23,6 @@ export function SiteTab({ installation }: { installation: Installation }) {
     patch_cord_type: installation.patch_cord_type ?? "",
     switch_name: installation.switch_name ?? "",
     switch_port: installation.switch_port ?? "",
-    vlan: installation.vlan ?? "",
   });
 
   const save = useMutation({
@@ -35,7 +34,7 @@ export function SiteTab({ installation }: { installation: Installation }) {
       if (error) throw error;
     },
     onSuccess: () => {
-      toast.success("Site details saved");
+      toast.success("Detalii site salvate");
       qc.invalidateQueries({ queryKey: ["installation", installation.id] });
       qc.invalidateQueries({ queryKey: ["installations"] });
     },
@@ -50,65 +49,62 @@ export function SiteTab({ installation }: { installation: Installation }) {
 
   return (
     <div className="space-y-4">
-      <SectionCard title="Client & work order">
+      <SectionCard title="Client și comandă de lucru">
         <div className="space-y-3">
           <Field label="Client">
             <Input {...bind("client_name")} />
           </Field>
           <div className="grid grid-cols-2 gap-3">
-            <Field label="Contact person">
+            <Field label="Persoană de contact">
               <Input {...bind("contact_person")} />
             </Field>
-            <Field label="Phone">
+            <Field label="Telefon">
               <Input type="tel" {...bind("contact_phone")} />
             </Field>
           </div>
-          <Field label="Address">
+          <Field label="Adresă">
             <Input {...bind("address")} />
           </Field>
           <div className="grid grid-cols-2 gap-3">
-            <Field label="Work order">
+            <Field label="Comandă de lucru">
               <Input {...bind("work_order")} />
             </Field>
-            <Field label="Service package">
-              <Input {...bind("service_package")} placeholder="1 Gbps symmetric" />
+            <Field label="Pachet servicii">
+              <Input {...bind("service_package")} placeholder="1 Gbps simetric" />
             </Field>
           </div>
         </div>
       </SectionCard>
 
-      <SectionCard title="POP / site termination" description="Where the fiber lands on our side">
+      <SectionCard title="POP / terminare în site" description="Unde ajunge fibra la noi în site">
         <div className="space-y-3">
-          <Field label="Site / POP name">
+          <Field label="Denumire site / POP">
             <Input {...bind("site_name")} placeholder="POP Nord" />
           </Field>
           <div className="grid grid-cols-2 gap-3">
-            <Field label="ODF name">
+            <Field label="Denumire ODF">
               <Input {...bind("odf_name")} placeholder="ODF-02" />
             </Field>
-            <Field label="ODF port">
+            <Field label="Port ODF">
               <Input {...bind("odf_port")} placeholder="1/14" />
             </Field>
           </div>
-          <Field label="Patch cord type">
+          <Field label="Tip patch cord">
             <Input {...bind("patch_cord_type")} placeholder="LC/UPC - SC/APC 3 m" />
           </Field>
           <div className="grid grid-cols-2 gap-3">
-            <Field label="Switch name">
+            <Field label="Denumire switch">
               <Input {...bind("switch_name")} placeholder="SW-AGG-01" />
             </Field>
-            <Field label="Switch port">
+            <Field label="Port switch">
               <Input {...bind("switch_port")} placeholder="Gi1/0/22" />
             </Field>
           </div>
-          <Field label="VLAN">
-            <Input {...bind("vlan")} placeholder="812" />
-          </Field>
         </div>
       </SectionCard>
 
       <Button size="lg" className="w-full" onClick={() => save.mutate()} disabled={save.isPending}>
-        Save site details
+        Salvează detaliile site-ului
       </Button>
     </div>
   );

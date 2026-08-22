@@ -15,17 +15,19 @@ import { STATUS_LABEL, type InstallStatus } from "@/lib/fiber";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Installations — FiberDoc" },
+      { title: "Instalări fibră optică — Proconect" },
       {
         name: "description",
         content:
-          "All your B2B fiber optic installation jobs: equipment, speed tests, cable routes and splice records in one field app.",
+          "Toate lucrările de instalare fibră optică B2B: echipamente, trasee de cablu și sudurile din manșoane, într-o singură aplicație de teren.",
       },
-      { property: "og:title", content: "Installations — FiberDoc" },
+      { property: "og:title", content: "Instalări fibră optică — Proconect" },
       {
         property: "og:description",
-        content: "Your B2B fiber optic installation jobs, documented on site.",
+        content: "Lucrările tale de instalare fibră optică B2B, documentate pe teren.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: () => (
@@ -64,13 +66,13 @@ function Dashboard() {
   );
 
   return (
-    <AppShell title="Installations" subtitle="B2B fiber optic jobs">
+    <AppShell title="Instalări" subtitle="Lucrări fibră optică B2B">
       <div className="relative mb-4">
         <Search className="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
         <Input
           value={q}
           onChange={(e) => setQ(e.target.value)}
-          placeholder="Search client, site or address"
+          placeholder="Caută client, site sau adresă"
           className="bg-card pl-9"
         />
       </div>
@@ -84,9 +86,9 @@ function Dashboard() {
       ) : filtered.length === 0 ? (
         <div className="rounded-2xl border border-dashed bg-card/50 p-10 text-center">
           <RouterIcon className="mx-auto size-8 text-muted-foreground" />
-          <p className="mt-3 font-medium">No installations yet</p>
+          <p className="mt-3 font-medium">Nicio instalare încă</p>
           <p className="mt-1 text-sm text-muted-foreground">
-            Create your first job to start documenting equipment, routes and splices.
+            Creează prima lucrare ca să documentezi echipamentele, traseele și sudurile.
           </p>
         </div>
       ) : (
@@ -102,7 +104,7 @@ function Dashboard() {
                   <div className="min-w-0">
                     <p className="truncate font-semibold">{inst.client_name}</p>
                     <p className="truncate text-sm text-muted-foreground">
-                      {inst.site_name || "Unnamed site"}
+                      {inst.site_name || "Site fără nume"}
                     </p>
                   </div>
                   <Badge
@@ -131,7 +133,7 @@ function Dashboard() {
         className="fixed right-5 bottom-[max(1.25rem,env(safe-area-inset-bottom))] z-40 rounded-full shadow-card"
       >
         <Link to="/installations/new">
-          <Plus className="size-5" /> New job
+          <Plus className="size-5" /> Lucrare nouă
         </Link>
       </Button>
     </AppShell>
