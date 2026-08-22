@@ -103,6 +103,8 @@ export type Database = {
           cable_type: string | null
           created_at: string
           fiber_count: number | null
+          from_latitude: number | null
+          from_longitude: number | null
           from_point: string | null
           id: string
           installation_id: string
@@ -112,6 +114,8 @@ export type Database = {
           notes: string | null
           path: Json
           segments: Json
+          to_latitude: number | null
+          to_longitude: number | null
           to_point: string | null
           updated_at: string
         }
@@ -119,6 +123,8 @@ export type Database = {
           cable_type?: string | null
           created_at?: string
           fiber_count?: number | null
+          from_latitude?: number | null
+          from_longitude?: number | null
           from_point?: string | null
           id?: string
           installation_id: string
@@ -128,6 +134,8 @@ export type Database = {
           notes?: string | null
           path?: Json
           segments?: Json
+          to_latitude?: number | null
+          to_longitude?: number | null
           to_point?: string | null
           updated_at?: string
         }
@@ -135,6 +143,8 @@ export type Database = {
           cable_type?: string | null
           created_at?: string
           fiber_count?: number | null
+          from_latitude?: number | null
+          from_longitude?: number | null
           from_point?: string | null
           id?: string
           installation_id?: string
@@ -144,6 +154,8 @@ export type Database = {
           notes?: string | null
           path?: Json
           segments?: Json
+          to_latitude?: number | null
+          to_longitude?: number | null
           to_point?: string | null
           updated_at?: string
         }
@@ -271,6 +283,36 @@ export type Database = {
           user_id?: string
           vlan?: string | null
           work_order?: string | null
+        }
+        Relationships: []
+      }
+      optix_sites: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: number
+          latitude: number
+          longitude: number
+          name: string
+          region: string | null
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: number
+          latitude: number
+          longitude: number
+          name: string
+          region?: string | null
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: number
+          latitude?: number
+          longitude?: number
+          name?: string
+          region?: string | null
         }
         Relationships: []
       }
