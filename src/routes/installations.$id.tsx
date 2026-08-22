@@ -7,7 +7,6 @@ import { AppShell } from "@/components/AppShell";
 import { RequireAuth } from "@/components/RequireAuth";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ClientOpsTab } from "@/components/installation/ClientOpsTab";
-import { SpeedTestTab } from "@/components/installation/SpeedTestTab";
 import { RouteTab } from "@/components/installation/RouteTab";
 import { SplicingTab } from "@/components/installation/SplicingTab";
 import { SiteTab } from "@/components/installation/SiteTab";
@@ -18,16 +17,16 @@ import { STATUS_LABEL, type InstallStatus } from "@/lib/fiber";
 export const Route = createFileRoute("/installations/$id")({
   head: () => ({
     meta: [
-      { title: "Installation job — FiberField" },
+      { title: "Lucrare de instalare — Proconect" },
       {
         name: "description",
         content:
-          "Document CPE, SFP, media converter, terminal box, speed tests, cable route and splicing for a B2B fiber installation.",
+          "Documentează CPE, SFP, media convertor, cutie terminală, traseul de cablu și sudurile pentru o instalare de fibră optică B2B.",
       },
-      { property: "og:title", content: "Installation job — FiberField" },
+      { property: "og:title", content: "Lucrare de instalare — Proconect" },
       {
         property: "og:description",
-        content: "Field documentation for a B2B fiber optic installation job.",
+        content: "Documentație de teren pentru o instalare de fibră optică B2B.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -62,7 +61,7 @@ function InstallationDetail() {
 
   if (isLoading) {
     return (
-      <AppShell title="Loading…" showBack>
+      <AppShell title="Se încarcă…" showBack>
         <div className="flex justify-center py-16">
           <Loader2 className="size-6 animate-spin text-muted-foreground" />
         </div>
@@ -72,9 +71,9 @@ function InstallationDetail() {
 
   if (error || !data) {
     return (
-      <AppShell title="Not found" showBack>
+      <AppShell title="Negăsit" showBack>
         <p className="py-16 text-center text-sm text-muted-foreground">
-          This installation doesn't exist or you don't have access to it.
+          Această instalare nu există sau nu ai acces la ea.
         </p>
       </AppShell>
     );
@@ -83,26 +82,22 @@ function InstallationDetail() {
   return (
     <AppShell
       title={data.client_name}
-      subtitle={`${data.work_order ? `WO ${data.work_order} · ` : ""}${
+      subtitle={`${data.work_order ? `CL ${data.work_order} · ` : ""}${
         STATUS_LABEL[data.status as InstallStatus] ?? data.status
       }`}
       showBack
     >
       <Tabs defaultValue="client" className="w-full">
-        <TabsList className="mb-4 grid w-full grid-cols-6">
+        <TabsList className="mb-4 grid w-full grid-cols-5">
           <TabsTrigger value="client">Client</TabsTrigger>
-          <TabsTrigger value="speed">Speed</TabsTrigger>
-          <TabsTrigger value="route">Route</TabsTrigger>
-          <TabsTrigger value="splice">Splices</TabsTrigger>
+          <TabsTrigger value="route">Traseu</TabsTrigger>
+          <TabsTrigger value="splice">Suduri</TabsTrigger>
           <TabsTrigger value="site">Site</TabsTrigger>
           <TabsTrigger value="docs">Docs</TabsTrigger>
         </TabsList>
 
         <TabsContent value="client">
           <ClientOpsTab key={data.updated_at} installation={data} />
-        </TabsContent>
-        <TabsContent value="speed">
-          <SpeedTestTab installationId={data.id} servicePackage={data.service_package} />
         </TabsContent>
         <TabsContent value="route">
           <RouteTab installation={data} />

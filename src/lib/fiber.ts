@@ -2,10 +2,10 @@ export const INSTALL_STATUSES = ["draft", "in_progress", "completed", "blocked"]
 export type InstallStatus = (typeof INSTALL_STATUSES)[number];
 
 export const STATUS_LABEL: Record<InstallStatus, string> = {
-  draft: "Draft",
-  in_progress: "In progress",
-  completed: "Completed",
-  blocked: "Blocked",
+  draft: "Ciornă",
+  in_progress: "În lucru",
+  completed: "Finalizat",
+  blocked: "Blocat",
 };
 
 export const CPE_MODELS = [
@@ -17,7 +17,7 @@ export const CPE_MODELS = [
   "Juniper ACX710",
   "Nokia 7210 SAS",
   "Zyxel VMG8825",
-  "Other / custom",
+  "Alt model / personalizat",
 ];
 
 export const FIBER_COLORS = [
@@ -35,17 +35,38 @@ export const FIBER_COLORS = [
   "Aqua",
 ];
 
+/** Romanian names for the standard fiber color code. */
+export const FIBER_COLOR_RO: Record<string, string> = {
+  Blue: "Albastru",
+  Orange: "Portocaliu",
+  Green: "Verde",
+  Brown: "Maro",
+  Slate: "Gri",
+  White: "Alb",
+  Red: "Rosu",
+  Black: "Negru",
+  Yellow: "Galben",
+  Violet: "Violet",
+  Rose: "Roz",
+  Aqua: "Turcoaz",
+};
+
+export function colorRo(value: string | null | undefined): string {
+  if (!value) return "";
+  return FIBER_COLOR_RO[value] ?? value;
+}
+
 export type LatLng = { lat: number; lng: number };
 
 /** Installation methods for a route segment, with the Romanian wording used in the report. */
 export const SEGMENT_METHODS = [
-  { value: "aerian", label: "Aerial (poles)", ro: "aerian" },
-  { value: "fatada", label: "Facade", ro: "pe fatada cladirii" },
-  { value: "canalizatie", label: "Duct (operator)", ro: "in canalizatie" },
-  { value: "canalizatie_client", label: "Duct (client)", ro: "in canalizatia clientului" },
-  { value: "subteran", label: "Underground / trench", ro: "subteran" },
-  { value: "pat_cablu", label: "Indoor cable tray", ro: "in interior in pat de cablu" },
-  { value: "interior_tub", label: "Indoor in tube", ro: "in interior in tub de protectie" },
+  { value: "aerian", label: "Aerian (stâlpi)", ro: "aerian" },
+  { value: "fatada", label: "Pe fațadă", ro: "pe fatada cladirii" },
+  { value: "canalizatie", label: "Canalizație (operator)", ro: "in canalizatie" },
+  { value: "canalizatie_client", label: "Canalizația clientului", ro: "in canalizatia clientului" },
+  { value: "subteran", label: "Subteran / șanț", ro: "subteran" },
+  { value: "pat_cablu", label: "Interior, pat de cablu", ro: "in interior in pat de cablu" },
+  { value: "interior_tub", label: "Interior, tub de protecție", ro: "in interior in tub de protectie" },
 ] as const;
 
 export type SegmentMethod = (typeof SEGMENT_METHODS)[number]["value"];
