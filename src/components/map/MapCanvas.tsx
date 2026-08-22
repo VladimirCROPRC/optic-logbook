@@ -2,11 +2,11 @@ import { Suspense, lazy, useEffect, useState } from "react";
 import { Loader2 } from "lucide-react";
 
 import type { LatLng } from "@/lib/fiber";
-import type { MapMarker } from "./LeafletMap";
+import type { MapBounds, MapMarker } from "./LeafletMap";
 
 const LeafletMap = lazy(() => import("./LeafletMap"));
 
-export type { MapMarker };
+export type { MapMarker, MapBounds };
 
 export function MapCanvas(props: {
   center: LatLng;
@@ -15,6 +15,8 @@ export function MapCanvas(props: {
   markers?: MapMarker[];
   onMapClick?: ((p: LatLng) => void) | undefined;
   onMarkerDrag?: ((id: string, p: LatLng) => void) | undefined;
+  onViewportChange?: ((b: MapBounds) => void) | undefined;
+  onLocated?: ((p: LatLng) => void) | undefined;
   className?: string;
 }) {
   const [mounted, setMounted] = useState(false);
